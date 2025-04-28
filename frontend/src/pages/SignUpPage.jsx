@@ -116,7 +116,7 @@ const SignUpPage = () => {
                             </div>
                         </div>
 
-                        <button type="submit" className="btn btn-primary w-full" disabled={isSigningUp}>
+                        <button type="submit" className="btn btn-primary w-full" disabled={isSigningUp ||( !formData.email && !formData.password)}>
                             {isSigningUp ? (
                                 <>
                                     <Loader2 className="size-5 animate-spin" />

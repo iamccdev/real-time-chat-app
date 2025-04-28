@@ -84,7 +84,7 @@ const LoginPage = () => {
                             </div>
                         </div>
 
-                        <button type="submit" className="btn btn-primary w-full" disabled={isSigningUp}>
+                        <button type="submit" className="btn btn-primary w-full" disabled={isSigningUp || (!formData.email && !formData.password) }>
                             {isLoggingIn ? (
                                 <>
                                     <Loader2 className="size-5 animate-spin" />
@@ -99,7 +99,7 @@ const LoginPage = () => {
                     <div className="text-center">
                         <p className="text-base-content/60">
                         ¿No tienes una cuenta?{" "}
-                            <Link to="/login" className="link link-primary">
+                            <Link to="/signup" className="link link-primary">
                                Crea una cuenta
                             </Link>
                         </p>

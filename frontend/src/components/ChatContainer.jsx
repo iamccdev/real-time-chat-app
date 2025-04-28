@@ -1,16 +1,27 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useChatStore } from "../store/useChatStore"
 import ChatHeader from "./ChatHeader";
 import MessageInput from "./MessageInput";
 import { useAuthStore } from "../store/useAuthStore";
 import { formatMessageTime } from "../lib/util";
+import avatar from "../assets/Avatar.png"
 
 const ChatContainer = () => {
     const { authUser } = useAuthStore();
-    const { messages, getMessages, isMessagessLoading, selectedUser } = useChatStore();
+    const { messages, getMessages, isMessagessLoading, selectedUser, subscribeToMessages, unSubscribeFromMessages } = useChatStore();
+    const messageEndRef = useRef(null);
     useEffect(() => {
         getMessages(selectedUser._id)
-    }, [selectedUser._id, getMessages])
+        subscribeToMessages();
+        return () => unSubscribeFromMessages();
+    }, [selectedUser._id, getMessages, subscribeToMessages, unSubscribeFromMessages]);
+
+    useEffect(() => {  
+        if (messageEndRef.current && messages){
+            messageEndRef.current.scrollIntoVie({behavior: "smooth"});
+        }
+        
+    }, [messages]);                                                                                                             
 
     if (isMessagessLoading)
         return (
@@ -27,11 +38,11 @@ const ChatContainer = () => {
             <div className=" flex-1 overflow-y-auto p-4 space-y-4">
                 {messages.map((message) => (
                     <div
-                        key={message.id}>
-                        className={`chat ${message.senderIid === authUser._id ? "chat-end" : "chat-start"}`}
+                        key={message.id} ref={messageEndRef} className={`chat ${message.senderId === authUser._id ? "chat-end" : "chat-start"}`}>
+
                         <div className="chat-image avatar">
                             <div className="size-10 rounded-full border">
-                                <img src={message.senderId === authUser._id ? authUser.profilePic || "/avatar.png" : selectedUser.profilePic || "/avatar.png"} alt="profile pic" />
+                                <img src={message.senderId === authUser._id ? authUser.profilePic || avatar : selectedUser.profilePic || avatar} alt="profile pic" />
                             </div>
                         </div>
                         <div className="chat-header mb-1">

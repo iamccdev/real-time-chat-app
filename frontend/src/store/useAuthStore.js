@@ -53,7 +53,7 @@ export const useAuthStore = create((set, get) => ({
             toast.success("Sesión iniciada exitosamente")
             get().connectSocket()
         }catch(error){
-            console.log(error);
+
             
             toast.error(error.response.data.message);
         }finally{
@@ -67,9 +67,7 @@ export const useAuthStore = create((set, get) => ({
             set({ authUser: null})
             get().disconnectSocket()
             toast.success("Sesión cerrada exitosamente")
-        } catch (error) {
-            console.log(error);
-            
+        } catch (error) {          
             toast.error(error.response.data.message);
         }
     },
@@ -101,7 +99,6 @@ export const useAuthStore = create((set, get) => ({
         
         set({socket:socket})
         socket.on("getOnlineUsers", (usersIds) => {
-            console.log(usersIds);
     
             set({onlineUsers: usersIds})
         })

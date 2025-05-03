@@ -4,7 +4,7 @@ import ChatHeader from "./ChatHeader";
 import MessageInput from "./MessageInput";
 import { useAuthStore } from "../store/useAuthStore";
 import { formatMessageTime } from "../lib/util";
-import avatar from "../assets/Avatar.png"
+import avatar from "../assets/avatar.png"
 
 const ChatContainer = () => {
     const { authUser } = useAuthStore();
